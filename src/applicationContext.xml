@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.1.xsd
+">
+	<context:property-placeholder location="classpath:datosEmpresa.propiedades"/>
+	<!-- Creación de la dependencia -->
+	<bean id="miInforme" class="es.camcar.ioc.Informe"></bean>
+	<!-- inyección de dependencia por constructor -->
+	<bean id="miEmpleado" class="es.camcar.ioc.DirectorEmpleado">
+		<!-- Inyección de la dependencia -->
+		<constructor-arg ref="miInforme"></constructor-arg>
+		
+		<!-- property name="email" value="equipo_directivo@email.com"></property--><!-- inyección de dependencia de campos -->
+		<!--property name="nombreEmpresa" value="camcar corp"></property--><!-- inyección de dependencia de campos -->
+		<property name="email" value="${email}"></property><!-- inyección de dependencia de campos desde archivo externo-->
+		<property name="nombreEmpresa" value="${nombreEmpresa}"></property><!-- inyección de dependencia de campos desde archivo externo-->
+	</bean>
+	
+	<bean id="miSecretarioEmpleado" class="es.camcar.ioc.SecretarioEmpleado">
+		<property name="informeNuevo" ref="miInforme"></property><!-- inyección de dependencia por setter -->
+		<property name="email" value="secretaria@email.com"></property><!-- inyección de dependencia de campos -->
+		<property name="nombreEmpresa" value="camcar corp"></property><!-- inyección de dependencia de campos -->
+	</bean>
+
+</beans>
